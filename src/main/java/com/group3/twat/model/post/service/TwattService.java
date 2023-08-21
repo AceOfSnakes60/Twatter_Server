@@ -21,10 +21,6 @@ public class TwattService {
         this.twattDao = twattDao;
     }
 
-    public List<Twatt> getAllTwats() {
-        return twattDao.getTwatt();
-    }
-
     public List<Twatt> getAllTwats(boolean isNewer){
         List<Twatt> twattList = new ArrayList<>(twattDao.getTwatt());
         Collections.sort(twattList, Comparator.comparing(Twatt::getDate));

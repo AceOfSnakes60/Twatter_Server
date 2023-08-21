@@ -1,52 +1,46 @@
 package com.group3.twat.model.group.service.DAO;
 
 import com.group3.twat.model.group.Group;
+import com.group3.twat.model.post.service.DAO.TwattReopsitory;
 import com.group3.twat.model.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
 public class GroupMemory implements GroupDao {
-    private List<Group> groups;
-
-    public GroupMemory() {
-        this.groups = new ArrayList<>(Arrays.asList(
-                Group.builder().id(1L).name("G 101").users(new ArrayList<>()).build()
-        ));
+    private final GroupRepository groupRepository;
+    @Autowired
+    public GroupMemory(GroupRepository groupRepository) {
+        this.groupRepository=groupRepository;
     }
+
+
+
+
 
     @Override
     public List<Group> getGroup() {
-        return groups;
+        return groupRepository.findAll();
     }
 
 
     @Override
     public void addGroup(Group newGroup) {
-        groups.add(newGroup);
+        groupRepository.save(newGroup);
     }
 
     @Override
     public Group getGroupById(Long groupId) {
-        return groups.stream()
-                .filter(group -> group.getId().equals(groupId))
-                .findFirst()
-                .orElse(null);
+        return groupRepository.findById(groupId).orElse(null);
     }
 
     @Override
     public boolean deleteGroupById(Long groupId) {
-        Iterator<Group> iterator = groups.iterator();
-        while (iterator.hasNext()) {
-            Group group = iterator.next();
-            if (group.getId().equals(groupId)) {
-                iterator.remove();
-                return true;
-            }
+        if (groupRepository.existsById(groupId)) {
+            groupRepository.deleteById(groupId);
+            return true;
         }
         return false;
     }
@@ -54,23 +48,28 @@ public class GroupMemory implements GroupDao {
 
     @Override
     public void addUserToGroup(Long groupId, User user) {
-        Group group = getGroupById(groupId);
+        Group group = groupRepository.findById(groupId).orElse(null);
         if (group != null) {
             group.getUsers().add(user);
+            groupRepository.save(group);
         }
     }
 
     @Override
     public boolean removeUserFromGroup(Long groupId, Long userId) {
-        Group group = getGroupById(groupId);
+        Group group = groupRepository.findById(groupId).orElse(null);
         if (group != null) {
-            Iterator<User> iterator = group.getUsers().iterator();
-            while (iterator.hasNext()) {
-                User user = iterator.next();
+            User userToRemove = null;
+            for (User user : group.getUsers()) {
                 if (user.getId()==(userId)) {
-                    iterator.remove();
-                    return true;
+                    userToRemove = user;
+                    break;
                 }
+            }
+            if (userToRemove != null) {
+                group.getUsers().remove(userToRemove);
+                groupRepository.save(group);
+                return true;
             }
         }
         return false;
