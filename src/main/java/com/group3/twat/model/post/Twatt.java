@@ -19,7 +19,7 @@ public class Twatt {
     @Id
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private User user;
     private String text;
     private LocalDate date;
