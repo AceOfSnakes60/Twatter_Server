@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "twatt")
@@ -24,4 +23,7 @@ public class Twatt {
     private User user;
     private String text;
     private LocalDate date;
+    @ManyToOne
+    @Column(nullable = true)
+    private Twatt parent;
 }

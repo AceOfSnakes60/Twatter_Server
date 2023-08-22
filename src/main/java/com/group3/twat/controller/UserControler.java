@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserControler {
 
 
@@ -24,12 +25,12 @@ public class UserControler {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/")
     public List<User> getUser() {
         return userService.getUser();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public User getUserByID(@PathVariable Long id) {
         System.out.println(id);
         List<User> userList = userService.getUser();
