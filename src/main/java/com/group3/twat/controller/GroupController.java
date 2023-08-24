@@ -54,16 +54,16 @@ public class GroupController {
 
 
 
-    @PostMapping("/groups/{groupId}/user")
+    @PostMapping("/{groupId}/addUser/{userId}")
     public ResponseEntity<String> addUserToGroup(
             @PathVariable Long groupId,
-            @RequestBody User newUser
-    ) {
-        boolean added = groupService.addUserToGroup(groupId, newUser);
-        if (added) {
-            return ResponseEntity.ok("User added to the group successfully");
+            @PathVariable Long userId) {
+
+        boolean success = groupService.addUserToGroup(groupId, userId);
+        if (success) {
+            return ResponseEntity.ok("User added to group successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Failed to add user to group");
         }
     }
     @DeleteMapping("/groups/{groupId}/{userId}")
