@@ -22,7 +22,7 @@ public class TwattController {
             this.twattService = twattService;
         }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<Twatt> getTwatts() {
         return twattService.getAllTwats(true);
     }
@@ -30,7 +30,7 @@ public class TwattController {
     @GetMapping("/{twattId}")
     public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<?> addTwatt(@RequestBody Twatt newTwatt) {
         twattService.addTwatt(newTwatt);
         System.out.println(newTwatt.getText());

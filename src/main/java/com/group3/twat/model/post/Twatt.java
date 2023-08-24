@@ -19,11 +19,10 @@ public class Twatt {
     @Id
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
     private String text;
     private LocalDate date;
     @ManyToOne
-    @Column(nullable = true)
     private Twatt parent;
 }

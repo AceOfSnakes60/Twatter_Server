@@ -15,9 +15,6 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserControler {
 
-
-
-
     private final UserService userService;
 
     @Autowired
@@ -25,7 +22,7 @@ public class UserControler {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<User> getUser() {
         return userService.getUser();
     }
@@ -38,13 +35,13 @@ public class UserControler {
     }
 
 
-    @PostMapping("/user")
+    @PostMapping()
     public String addUser(@RequestBody UserRegistrationRequest newUser) {
         userService.addUser(new User(0, newUser.username(), newUser.email(), newUser.password()));
         return "redirect:/user";
     }
 
-    @PostMapping("/user/validate")
+    @PostMapping("/validate")
     public ValidationResponse validate(@RequestBody ValidationRequest request){
         System.out.println("Validate");
         System.out.println(request.email() + " " + request.password());

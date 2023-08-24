@@ -28,7 +28,6 @@ public class TwattService {
             Collections.reverse(twattList);
 
         }
-        System.out.println(twattList.get(0));
         return twattList;
     }
 
