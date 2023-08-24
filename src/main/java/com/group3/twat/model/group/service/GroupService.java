@@ -3,6 +3,7 @@ package com.group3.twat.model.group.service;
 import com.group3.twat.model.group.Group;
 import com.group3.twat.model.group.service.DAO.GroupDao;
 import com.group3.twat.model.user.User;
+import com.group3.twat.model.user.service.DAO.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,10 @@ import java.util.List;
 public class GroupService {
 
     private final GroupDao groupDao;
-
+private  final UserDao userDao;
     @Autowired
-    public GroupService(GroupDao groupDao) {
+    public GroupService(UserDao userDao, GroupDao groupDao) {
+        this.userDao = userDao;
         this.groupDao = groupDao;
     }
 
@@ -36,8 +38,8 @@ public class GroupService {
     }
 
 
-    public boolean addUserToGroup(Long groupId, User user) {
-        groupDao.addUserToGroup(groupId, user);
+    public boolean addUserToGroup(Long groupId, Long userId) {
+        groupDao.addUserToGroup(groupId, userId);
         return true;
     }
     public boolean removeUserFromGroup(Long groupId, Long userId) {

@@ -12,6 +12,6 @@ public interface GroupDao {
     Group getGroupById(Long groupId);
 
     boolean deleteGroupById(Long groupId);
-    void addUserToGroup(Long groupId, User user);
+    void addUserToGroup(Long groupId, Long userId);
    boolean  removeUserFromGroup(Long groupId,Long userId );
 }

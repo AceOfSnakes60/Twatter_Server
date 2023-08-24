@@ -3,6 +3,7 @@ package com.group3.twat.model.group.service.DAO;
 import com.group3.twat.model.group.Group;
 import com.group3.twat.model.post.service.DAO.TwattReopsitory;
 import com.group3.twat.model.user.User;
+import com.group3.twat.model.user.service.DAO.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +12,11 @@ import java.util.List;
 @Repository
 public class GroupMemory implements GroupDao {
     private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
     @Autowired
-    public GroupMemory(GroupRepository groupRepository) {
+    public GroupMemory(GroupRepository groupRepository,UserRepository userRepository) {
         this.groupRepository=groupRepository;
+        this.userRepository=userRepository;
     }
 
 
@@ -47,13 +50,17 @@ public class GroupMemory implements GroupDao {
 
 
     @Override
-    public void addUserToGroup(Long groupId, User user) {
+    public void addUserToGroup(Long groupId, Long userId) {
         Group group = groupRepository.findById(groupId).orElse(null);
-        if (group != null) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (group != null && user != null) {
             group.getUsers().add(user);
             groupRepository.save(group);
         }
     }
+
+
 
     @Override
     public boolean removeUserFromGroup(Long groupId, Long userId) {

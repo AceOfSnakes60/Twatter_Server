@@ -7,4 +7,8 @@ import java.util.List;
 public interface UserDao {
     List<User> getUser();
 
-    void addUser(User newUser);}
+    void addUser(User newUser);
+   void addUserToFriend(Long userId, Long friendId);
+    boolean  removeUserFromFriends(Long userId, Long friendId );
+
+}
