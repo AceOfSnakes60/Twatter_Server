@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserControler {
-
 
     private final UserService userService;
 
@@ -23,12 +23,12 @@ public class UserControler {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public List<User> getUser() {
         return userService.getUser();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public User getUserByID(@PathVariable Long id) {
         System.out.println(id);
         List<User> userList = userService.getUser();
@@ -36,7 +36,7 @@ public class UserControler {
     }
 
 
-    @PostMapping("/user")
+    @PostMapping()
     public String addUser(@RequestBody UserRegistrationRequest newUser) {
 
         User user = new User();
@@ -48,10 +48,15 @@ public class UserControler {
         return "redirect:/user";
     }
 
+    @PostMapping("/validate")
+    public ValidationResponse validate(@RequestBody ValidationRequest request){
+        System.out.println("Validate");
+        System.out.println(request.email() + " " + request.password());
+        return new ValidationResponse(true, true);
 
 
 
-    @PostMapping("/user/{userId}/addFriend/{friendId}")
+    @PostMapping("/{userId}/addFriend/{friendId}")
     public ResponseEntity<String> addFriend(
             @PathVariable Long userId,
             @PathVariable Long friendId) {
@@ -64,7 +69,7 @@ public class UserControler {
         }
     }
 
-    @DeleteMapping("/user/{userId}/removeFriend/{friendId}")
+    @DeleteMapping("/{userId}/removeFriend/{friendId}")
     public ResponseEntity<String> removeFriend(
             @PathVariable Long userId,
             @PathVariable Long friendId) {

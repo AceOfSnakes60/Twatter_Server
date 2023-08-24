@@ -1,41 +1,46 @@
 package com.group3.twat.model.post.service.DAO;
 
 import com.group3.twat.model.post.Twatt;
-import com.group3.twat.model.user.service.DAO.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 @Repository
 public class TwattMemory implements TwattDao {
-    private final TwattReopsitory twattReopsitory;
+    private final TwattRepository twattRepository;
 
     @Autowired
-    public TwattMemory(TwattReopsitory twattReopsitory) {
-this.twattReopsitory=twattReopsitory;
+    public TwattMemory(TwattRepository twattRepository) {
+this.twattRepository= twattRepository;
     }
 
     @Override
     public List<Twatt> getTwatt() {
-        return twattReopsitory.findAll();
+        return twattRepository.findAll();
     }
 
 
     @Override
     public void addTwatt(Twatt newTwatt) {
-        twattReopsitory.save(newTwatt);
+        twattRepository.save(newTwatt);
     }
     @Override
     public boolean deleteTwattById(Long twattId) {
-        if (twattReopsitory.existsById(twattId)) {
-            twattReopsitory.deleteById(twattId);
+        if (twattRepository.existsById(twattId)) {
+            twattRepository.deleteById(twattId);
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public Twatt getTwattById(Long twattId){
+        return twattRepository.findById(twattId).get();
+    }
+    @Override
+    public List<Twatt> getResponses(Long twattId){
+        return twattRepository.findByParentId(twattId);
     }
 
 }

@@ -10,4 +10,8 @@ public interface TwattDao {
     void addTwatt(Twatt newTwatt);
 
     boolean deleteTwattById(Long twattId);
+
+    Twatt getTwattById(Long twattId);
+
+    List<Twatt> getResponses(Long twattId);
 }

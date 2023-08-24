@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 @RestController
+@RequestMapping("/twatts")
 public class TwattController {
-
-
-
         private final TwattService twattService;
 
         @Autowired
@@ -24,12 +22,15 @@ public class TwattController {
             this.twattService = twattService;
         }
 
-    @GetMapping("/twatts")
+    @GetMapping()
     public List<Twatt> getTwatts() {
         return twattService.getAllTwats(true);
     }
 
-    @PostMapping("/twatts")
+    @GetMapping("/{twattId}")
+    public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
+
+    @PostMapping()
     public ResponseEntity<?> addTwatt(@RequestBody Twatt newTwatt) {
         twattService.addTwatt(newTwatt);
         System.out.println(newTwatt.getText());
@@ -37,7 +38,7 @@ public class TwattController {
     }
 
 
-    @DeleteMapping("/twatts/{twatId}")
+    @DeleteMapping("/{twatId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> deleteTwattById(@PathVariable Long twatId) {
         boolean deleted = twattService.deleteTwattById(twatId);
@@ -46,6 +47,11 @@ public class TwattController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/replies/{parentId}")
+    public List<Twatt> getReplies(@PathVariable Long parentId){
+            return twattService.getReplies(parentId);
     }
 
 }

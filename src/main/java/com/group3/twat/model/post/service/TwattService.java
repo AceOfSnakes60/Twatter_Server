@@ -28,7 +28,6 @@ public class TwattService {
             Collections.reverse(twattList);
 
         }
-        System.out.println(twattList.get(0));
         return twattList;
     }
 
@@ -38,8 +37,13 @@ public class TwattService {
     }
 
     public boolean deleteTwattById(Long twattId) {
-        {
-            return twattDao.deleteTwattById(twattId);
-        }
+        return twattDao.deleteTwattById(twattId);
+    }
+
+    public Twatt getTwattById(Long twattId){
+        return twattDao.getTwattById(twattId);
+    }
+    public List<Twatt> getReplies(Long parentId){
+        return twattDao.getResponses(parentId);
     }
 }

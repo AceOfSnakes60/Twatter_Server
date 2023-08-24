@@ -1,7 +1,6 @@
 package com.group3.twat.model.group.service.DAO;
 
 import com.group3.twat.model.group.Group;
-import com.group3.twat.model.post.service.DAO.TwattReopsitory;
 import com.group3.twat.model.user.User;
 import com.group3.twat.model.user.service.DAO.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +17,6 @@ public class GroupMemory implements GroupDao {
         this.groupRepository=groupRepository;
         this.userRepository=userRepository;
     }
-
-
-
-
 
     @Override
     public List<Group> getGroup() {
