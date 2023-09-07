@@ -49,12 +49,11 @@ public class UserControler {
     }
 
     @PostMapping("/validate")
-    public ValidationResponse validate(@RequestBody ValidationRequest request){
+    public ValidationResponse validate(@RequestBody ValidationRequest request) {
         System.out.println("Validate");
         System.out.println(request.email() + " " + request.password());
         return new ValidationResponse(true, true);
-
-
+    }
 
     @PostMapping("/{userId}/addFriend/{friendId}")
     public ResponseEntity<String> addFriend(

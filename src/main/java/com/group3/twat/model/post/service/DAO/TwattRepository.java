@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TwattRepository extends JpaRepository<Twatt,Long> {
 
-    @Query("select t from Twatt t join Twatt p on t.parent = p where p.id = :id")
+    @Query("select t from Twatt t where t.parentId = :id")
     List<Twatt> findByParentId(@Param("id") Long id);
 }
 
