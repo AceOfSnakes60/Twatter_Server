@@ -1,5 +1,6 @@
 package com.group3.twat.controller;
 
+import com.group3.twat.controller.requests.NewTwattRequest;
 import com.group3.twat.model.post.service.TwattService;
 import com.group3.twat.model.post.Twatt;
 import org.apache.coyote.Request;
@@ -31,9 +32,15 @@ public class TwattController {
     public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
 
     @PostMapping()
-    public ResponseEntity<?> addTwatt(@RequestBody Twatt newTwatt) {
-        twattService.addTwatt(newTwatt);
-        System.out.println(newTwatt.getText());
+    public ResponseEntity<?> addTwatt(@RequestBody NewTwattRequest newTwattRequest) {
+        System.out.println(newTwattRequest);
+            Twatt twatt = new Twatt(null,
+                    null,
+                    newTwattRequest.body(),
+                    LocalDate.now(),
+                    newTwattRequest.parentId()
+            );
+            twattService.addTwatt(twatt);
         return ResponseEntity.ok().build();
     }
 

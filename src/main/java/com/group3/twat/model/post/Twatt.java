@@ -17,12 +17,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Twatt {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     private String text;
     private LocalDate date;
-    @ManyToOne
-    private Twatt parent;
+    private Long parentId;
 }
