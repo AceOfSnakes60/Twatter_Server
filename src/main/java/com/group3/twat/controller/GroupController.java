@@ -2,7 +2,6 @@ package com.group3.twat.controller;
 
 import com.group3.twat.model.group.Group;
 import com.group3.twat.model.group.service.GroupService;
-import com.group3.twat.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

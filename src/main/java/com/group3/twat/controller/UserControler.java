@@ -7,6 +7,7 @@ import com.group3.twat.model.user.User;
 import com.group3.twat.model.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserControler {
 
+
     private final UserService userService;
 
     @Autowired
     public UserControler(UserService userService) {
         this.userService = userService;
     }
-
+    @PreAuthorize("hasRole('USER')")
     @GetMapping()
     public List<User> getUser() {
         return userService.getUser();
@@ -68,7 +70,7 @@ public class UserControler {
         }
     }
 
-    @DeleteMapping("/{userId}/removeFriend/{friendId}")
+    @DeleteMapping("/user/{userId}/removeFriend/{friendId}")
     public ResponseEntity<String> removeFriend(
             @PathVariable Long userId,
             @PathVariable Long friendId) {
