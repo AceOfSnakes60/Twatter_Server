@@ -78,9 +78,9 @@ public class UserControler {
         boolean success = userService.removeUserFromFriends(userId, friendId);
         if (success) {
             return ResponseEntity.ok("Friend removed successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Failed to remove friend");
         }
+        return ResponseEntity.badRequest().body("Failed to remove friend");
+
     }
 
 }

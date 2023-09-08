@@ -28,7 +28,17 @@ public class UserService {
         return userDao.getUser();
     }
 
-
+    public ResponseEntity<String> addUser(User newUser) {
+        String validationMessage = validations.validateUsername(newUser.getUsername());
+        String validationMessage2 = validations.validateUserPassword(newUser.getPassword());
+        String validationMessage3 = validations.validateEmail(newUser.getEmail(),userRepository);
+        if (validationMessage == null && validationMessage2 == null&& validationMessage3==null) {
+            userDao.addUser(newUser);
+            return ResponseEntity.ok("User added successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationMessage);
+        }
+    }
 
     public void addUserToFriend(Long userId, Long friendId) {
         userDao.addUserToFriend(userId, friendId);

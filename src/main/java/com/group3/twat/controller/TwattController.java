@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -32,8 +33,8 @@ public class TwattController {
     public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
 
     @PostMapping()
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addTwatt(@RequestBody NewTwattRequest newTwattRequest) {
-        System.out.println(newTwattRequest);
             Twatt twatt = new Twatt(null,
                     null,
                     newTwattRequest.body(),
@@ -51,9 +52,9 @@ public class TwattController {
         boolean deleted = twattService.deleteTwattById(twatId);
         if (deleted) {
             return ResponseEntity.ok("Twatt deleted successfully");
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
+
     }
 
     @GetMapping("/replies/{parentId}")
