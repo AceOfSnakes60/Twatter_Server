@@ -1,4 +1,4 @@
-package com.group3.twat.model.user.service.DAO.config.Seciurity;
+package com.group3.twat.auth;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequset {
+public class RegisterRequest {
     private String username;
     private String email;
     private String password;

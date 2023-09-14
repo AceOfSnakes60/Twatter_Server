@@ -1,4 +1,4 @@
-package com.group3.twat.model.user.service.DAO.config.Seciurity;
+package com.group3.twat.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String token;
-    private String error;
+public class AuthenticationRequest {
+    private String email;
+     String password;
+
 }

@@ -1,12 +1,10 @@
-package com.group3.twat.model.user.service.DAO.config.Seciurity;
+package com.group3.twat.auth;
 
 import com.group3.twat.model.user.Role;
 import com.group3.twat.model.user.User;
 import com.group3.twat.model.user.service.DAO.UserRepository;
 import com.group3.twat.model.user.service.Validations;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +20,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 private final Validations validations;
 private final UserRepository userRepository;
-    public AuthenticationResponse register(RegisterRequset requset) {
+    public AuthenticationResponse register(RegisterRequest requset) {
         String validationMessage = validations.validateUsername(requset.getUsername());
         String validationMessage2 = validations.validateUserPassword(requset.getPassword());
         String validationMessage3 = validations.validateEmail(requset.getEmail(),userRepository);
@@ -34,7 +32,7 @@ private final UserRepository userRepository;
                     .role(Role.USER)
                     .build();
             repository.save(user);
-            var jwtToken = jwtService.genrateToken(user);
+            var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
                     .build();
@@ -46,16 +44,16 @@ private final UserRepository userRepository;
         }
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequset requset) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        requset.getEmail(),
-                        requset.getPassword()
+                        request.getEmail(),
+                        request.getPassword()
                 )
         );
-        var user = repository.findByEmail(requset.getEmail())
+        var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.genrateToken(user);
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

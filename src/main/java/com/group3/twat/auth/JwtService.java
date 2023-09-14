@@ -1,4 +1,4 @@
-package com.group3.twat.model.user.service.DAO.config.Seciurity;
+package com.group3.twat.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +27,8 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String genrateToken(UserDetails userDetails){
-        return  genrateToken(new HashMap<>(),userDetails);
+    public String generateToken(UserDetails userDetails){
+        return  generateToken(new HashMap<>(),userDetails);
     }
 
     public boolean isTokenValid(String token,UserDetails userDetails){
@@ -38,14 +37,14 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExperation(token).before(new Date());
+        return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExperation(String token) {
+    private Date extractExpiration(String token) {
         return extractClaim(token,Claims::getExpiration);
     }
 
-    public String  genrateToken(
+    public String generateToken(
             Map<String,Object> extraClaim,
             UserDetails userDetails
     ){

@@ -1,4 +1,4 @@
-package com.group3.twat.model.user.service.DAO.config.Seciurity;
+package com.group3.twat.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ public class AuthenticationControler {
 private final AuthenticationService service;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse>register(
-            @RequestBody RegisterRequset requset
-    ){
-return ResponseEntity.ok(service.register(requset));
+             @RequestBody RegisterRequest request
+         ){
+        return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse>authenticate(
-            @RequestBody AuthenticationRequset requset
+            @RequestBody AuthenticationRequest request
     ){
-     return   ResponseEntity.ok(service.authenticate(requset));
+     return   ResponseEntity.ok(service.authenticate(request));
     }
 
 
