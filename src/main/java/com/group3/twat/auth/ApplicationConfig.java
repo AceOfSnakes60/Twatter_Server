@@ -1,6 +1,6 @@
 package com.group3.twat.auth;
 
-import com.group3.twat.model.user.service.DAO.UserRepository;
+import com.group3.twat.user.service.DAO.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

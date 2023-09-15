@@ -1,9 +1,8 @@
 package com.group3.twat.auth;
 
-import com.group3.twat.model.user.Role;
-import com.group3.twat.model.user.User;
-import com.group3.twat.model.user.service.DAO.UserRepository;
-import com.group3.twat.model.user.service.Validations;
+import com.group3.twat.user.User;
+import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.user.service.Validations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,15 +19,16 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 private final Validations validations;
 private final UserRepository userRepository;
-    public AuthenticationResponse register(RegisterRequest requset) {
-        String validationMessage = validations.validateUsername(requset.getUsername());
-        String validationMessage2 = validations.validateUserPassword(requset.getPassword());
-        String validationMessage3 = validations.validateEmail(requset.getEmail(),userRepository);
+    public AuthenticationResponse register(RegisterRequest request) {
+        System.out.println(request.getUsername());
+        String validationMessage = validations.validateUsername(request.getUsername(), userRepository);
+        String validationMessage2 = validations.validateUserPassword(request.getPassword());
+        String validationMessage3 = validations.validateEmail(request.getEmail(),userRepository);
         if (validationMessage == null && validationMessage2 == null&& validationMessage3==null) {
             var user = User.builder()
-                    .username(requset.getUsername())
-                    .email(requset.getEmail())
-                    .password(passwordEncoder.encode(requset.getPassword()))
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.USER)
                     .build();
             repository.save(user);
@@ -36,12 +36,12 @@ private final UserRepository userRepository;
             return AuthenticationResponse.builder()
                     .token(jwtToken)
                     .build();
-        } else {
-            return AuthenticationResponse.builder()
-                    .error(validationMessage != null ? validationMessage :
-                            validationMessage2 != null ? validationMessage2 : validationMessage3)
-                    .build();
         }
+        return AuthenticationResponse.builder()
+                .error(validationMessage != null ? validationMessage :
+                        validationMessage2 != null ? validationMessage2 : validationMessage3)
+                .build();
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

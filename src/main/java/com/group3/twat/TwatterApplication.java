@@ -1,7 +1,5 @@
 package com.group3.twat;
 
-import com.group3.twat.model.post.service.PostValidator;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
