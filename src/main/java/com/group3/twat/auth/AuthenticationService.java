@@ -58,4 +58,5 @@ private final UserRepository userRepository;
                 .token(jwtToken)
                 .build();
     }
+
 }

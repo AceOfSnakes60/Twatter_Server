@@ -27,6 +27,8 @@ public class UserService {
         return userDao.getUser();
     }
 
+    public User getUserByMail(String email){return userRepository.findByEmail(email).get();}
+
     public ResponseEntity<String> addUser(User newUser) {
         String validationMessage = validations.validateUsername(newUser.getUsername(), userRepository);
         String validationMessage2 = validations.validateUserPassword(newUser.getPassword());

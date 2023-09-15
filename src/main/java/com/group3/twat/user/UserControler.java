@@ -4,9 +4,12 @@ import com.group3.twat.requests.UserRegistrationRequest;
 import com.group3.twat.requests.ValidationRequest;
 import com.group3.twat.requests.ValidationResponse;
 import com.group3.twat.user.service.UserService;
+import com.group3.twat.user.service.Validations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +29,16 @@ public class UserControler {
     @GetMapping()
     public List<User> getUser() {
         return userService.getUser();
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/me")
+    public User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        //TODO It could be user or email
+        User user = userService.getUserByMail(username);
+        return user;
     }
 
     @GetMapping("/{id}")

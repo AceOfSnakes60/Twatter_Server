@@ -18,6 +18,9 @@ public class Validations {
         if (!username.matches("^[a-zA-Z0-9_-]*$")) {
             return "Username can only contain letters, numbers, hyphens, and underscores";
         }
+        if(usernameExistsInDatabase(username, userRepository)){
+            return "Username already exists";
+        }
 
         return null;
     }
@@ -58,6 +61,11 @@ public class Validations {
 
     private boolean emailExistsInDatabase(String email, UserRepository userRepository) {
         Optional<User> existingUser = userRepository.findByEmail(email);
+        return existingUser.isPresent();
+    }
+
+    private boolean usernameExistsInDatabase(String username, UserRepository userRepository){
+        Optional<User> existingUser = userRepository.findByUsername(username);
         return existingUser.isPresent();
     }
 }
