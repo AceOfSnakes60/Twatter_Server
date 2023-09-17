@@ -24,6 +24,7 @@ public class TwattController {
 
 
     @GetMapping()
+    @PreAuthorize("hasRole('USER')")
     public List<Twatt> getTwatts() {
         return twattService.getAllTwats(true);
     }

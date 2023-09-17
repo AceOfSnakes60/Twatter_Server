@@ -38,6 +38,8 @@ public class UserControler {
         String username = authentication.getName();
         //TODO It could be user or email
         User user = userService.getUserByMail(username);
+        System.out.println("Works");
+        System.out.println(user.getUsername());
         return user;
     }
 

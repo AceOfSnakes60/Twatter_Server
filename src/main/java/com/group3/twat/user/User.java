@@ -50,10 +50,14 @@ public class User implements UserDetails {
 
 
 //Uwaga username ma przekazć email nie usera!!!
-    // Dlaczego? - Maslanka
+
     @Override
     public String getUsername(){
         return  username;
+    }
+
+    public String getEmail(){
+        return email;
     }
     @Override
     public boolean isAccountNonExpired() {
