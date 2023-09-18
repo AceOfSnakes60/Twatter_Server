@@ -1,4 +1,4 @@
-package com.group3.twat.auth;
+package com.group3.twat.auth.templates;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

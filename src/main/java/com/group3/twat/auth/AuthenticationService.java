@@ -1,5 +1,8 @@
 package com.group3.twat.auth;
 
+import com.group3.twat.auth.templates.AuthenticationRequest;
+import com.group3.twat.auth.templates.AuthenticationResponse;
+import com.group3.twat.auth.templates.RegisterRequest;
 import com.group3.twat.user.User;
 import com.group3.twat.user.service.DAO.UserRepository;
 import com.group3.twat.user.service.Validations;

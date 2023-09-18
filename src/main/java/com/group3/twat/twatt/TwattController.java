@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+
+
 @RestController
 @RequestMapping("/twatts")
 public class TwattController {
@@ -24,9 +26,9 @@ public class TwattController {
 
 
     @GetMapping()
-    @PreAuthorize("hasRole('USER')")
-    public List<Twatt> getTwatts() {
-        return twattService.getAllTwats(true);
+    public ResponseEntity<List<Twatt>> getTwatts() {
+        System.out.println("getTwatts");
+        return ResponseEntity.ok(twattService.getAllTwats(true));
     }
 
     @GetMapping("/{twattId}")

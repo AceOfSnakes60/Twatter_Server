@@ -1,5 +1,8 @@
 package com.group3.twat.auth;
 
+import com.group3.twat.auth.templates.AuthenticationRequest;
+import com.group3.twat.auth.templates.AuthenticationResponse;
+import com.group3.twat.auth.templates.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +27,11 @@ private final AuthenticationService service;
             @RequestBody AuthenticationRequest request
     ){
      return   ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @PostMapping("/token")
+    public void refreshToken(){
+        //TODO return access token
     }
 
 
