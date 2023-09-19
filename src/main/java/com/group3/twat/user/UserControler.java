@@ -31,17 +31,7 @@ public class UserControler {
         return userService.getUser();
     }
 
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/me")
-    public User getCurrentUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        //TODO It could be user or email
-        User user = userService.getUserByMail(username);
-        System.out.println("Works");
-        System.out.println(user.getUsername());
-        return user;
-    }
+
 
     @GetMapping("/{id}")
     public User getUserByID(@PathVariable Long id) {
@@ -63,6 +53,18 @@ public class UserControler {
         return "redirect:/user";
     }
 
+    @GetMapping("/me")
+    //@PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(){
+        System.out.println("me");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        //TODO It could be user or email
+        User user = userService.getUserByName(username);
+        System.out.println("Works");
+        System.out.println(user.getUsername());
+        return user;
+    }
     @PostMapping("/validate")
     public ValidationResponse validate(@RequestBody ValidationRequest request) {
         System.out.println("Validate");

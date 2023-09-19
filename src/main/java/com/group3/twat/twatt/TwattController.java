@@ -2,6 +2,7 @@ package com.group3.twat.twatt;
 
 import com.group3.twat.requests.NewTwattRequest;
 import com.group3.twat.twatt.service.TwattService;
+import com.group3.twat.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,10 @@ public class TwattController {
     public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
 
     @PostMapping()
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addTwatt(@RequestBody NewTwattRequest newTwattRequest) {
+        System.out.println("Post twatt");
+        //TODO Add user id from context Holder
             Twatt twatt = new Twatt(null,
                     null,
                     newTwattRequest.body(),

@@ -28,6 +28,7 @@ public class UserService {
     }
 
     public User getUserByMail(String email){return userRepository.findByEmail(email).get();}
+    public User getUserByName(String name){return userRepository.findByUsername(name).get();}
 
     public ResponseEntity<String> addUser(User newUser) {
         String validationMessage = validations.validateUsername(newUser.getUsername(), userRepository);

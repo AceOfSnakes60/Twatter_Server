@@ -3,6 +3,7 @@ package com.group3.twat.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,22 +30,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(GET, "/api/v1/auth/**").hasAnyAuthority("USER");
-        http.authorizeHttpRequests().anyRequest()
-
-                .permitAll()
-
-
+                .requestMatchers(GET, "/api/v1/auth/**").hasAnyAuthority("USER")
+                .requestMatchers(GET, "/user/me").hasAnyAuthority("USER")
+                .anyRequest().permitAll()
+                .and()
+                .cors()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors();
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
 
 
         return http.build();
