@@ -24,9 +24,9 @@ public class GroupController {
 
 
     @PostMapping("/groups")
-    public String addGroup(@RequestBody Group newGroup) {
+    public ResponseEntity addGroup(@RequestBody Group newGroup) {
         groupService.addGroup(newGroup);
-        return "redirect:/groups";
+        return ResponseEntity.ok().build();
     }
 
 

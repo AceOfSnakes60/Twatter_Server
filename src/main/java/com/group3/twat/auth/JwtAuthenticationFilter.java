@@ -1,5 +1,7 @@
 package com.group3.twat.auth;
 
+import com.group3.twat.auth.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +47,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 //7 dla tego że jak liczymy Bearer i " " to wychodzi 7
         jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        try {
+            username = jwtService.extractUsername(jwt);
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             System.out.println("JWTFilter 51: " + userDetails.getPassword());
@@ -54,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails.getUsername(),
                         userDetails.getPassword(),
-                         userDetails.getAuthorities()
+                        userDetails.getAuthorities()
                 );
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
@@ -62,9 +66,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
                 System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
+                filterChain.doFilter(request, response);
+                return;
+            } else {
+                System.out.println("Token not valid");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Unauthorized");
             }
         }
-        filterChain.doFilter(request, response);
+        } catch(JwtException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Unauthorized");
+
+        }
     }
 
 

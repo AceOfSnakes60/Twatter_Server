@@ -2,7 +2,10 @@ package com.group3.twat.group.service;
 
 import com.group3.twat.group.Group;
 import com.group3.twat.group.service.DAO.GroupDao;
+import com.group3.twat.group.service.DAO.GroupRepository;
+import com.group3.twat.user.User;
 import com.group3.twat.user.service.DAO.UserDao;
+import com.group3.twat.user.service.DAO.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,43 +13,69 @@ import java.util.List;
 @Service
 public class GroupService {
 
-    private final GroupDao groupDao;
-private  final UserDao userDao;
+    private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
+
     @Autowired
-    public GroupService(UserDao userDao, GroupDao groupDao) {
-        this.userDao = userDao;
-        this.groupDao = groupDao;
+    public GroupService(GroupRepository groupRepository, UserRepository userRepository) {
+        this.groupRepository=groupRepository;
+        this.userRepository=userRepository;
+
     }
 
     public List<Group> getAllGroups() {
-        return groupDao.getGroup();
+        return groupRepository.findAll();
     }
 
 
 
     public void addGroup(Group newGroup) {
-        groupDao.addGroup(newGroup);
+        groupRepository.save(newGroup);
     }
     public Group getGroupById(Long groupId) {
-        return groupDao.getGroupById(groupId);
+        return groupRepository.findById(groupId).orElse(null);
     }
 
 
     public boolean deleteGroupById(Long groupId) {
-        return groupDao.deleteGroupById(groupId);
+        if (groupRepository.existsById(groupId)) {
+            groupRepository.deleteById(groupId);
+            return true;
+        }
+        return false;
     }
 
 
     public boolean addUserToGroup(Long groupId, Long userId) {
-        groupDao.addUserToGroup(groupId, userId);
+        Group group = groupRepository.findById(groupId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (group != null && user != null) {
+            group.getUsers().add(user);
+            groupRepository.save(group);
+        }
         return true;
     }
     public boolean removeUserFromGroup(Long groupId, Long userId) {
-        Group group = groupDao.getGroupById(groupId);
+        Group group = groupRepository.findById(groupId).orElse(null);
         if (group == null) {
             return false;
         }
-        return groupDao.removeUserFromGroup(groupId, userId);
+
+            User userToRemove = null;
+            for (User user : group.getUsers()) {
+                if (user.getId()==(userId)) {
+                    userToRemove = user;
+                    break;
+                }
+            }
+            if (userToRemove != null) {
+                group.getUsers().remove(userToRemove);
+                groupRepository.save(group);
+                return true;
+            }
+
+        return false;
     }
 
 }

@@ -2,9 +2,12 @@ package com.group3.twat.twatt.service;
 
 import com.group3.twat.twatt.service.DAO.TwattDao;
 import com.group3.twat.twatt.Twatt;
+import com.group3.twat.twatt.service.DAO.TwattRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,17 +17,19 @@ import java.util.List;
 public class TwattService {
 
 
-    private final TwattDao twattDao;
+
+    private final TwattRepository twattRepository;
 
 
     @Autowired
-    public TwattService(TwattDao twattDao) {
-        this.twattDao = twattDao;
+    public TwattService(TwattRepository twattRepository) {
+        this.twattRepository = twattRepository;
     }
 
     public List<Twatt> getAllTwats(boolean isNewer){
-        List<Twatt> twattList = new ArrayList<>(twattDao.getTwatt());
+        List<Twatt> twattList = new ArrayList<>(twattRepository.findAll());
         Collections.sort(twattList, Comparator.comparing(Twatt::getDate));
+        System.out.println("Show first user: " + twattList.get(0).getUser().getUsername());
         if(isNewer) {
             Collections.reverse(twattList);
 
@@ -33,7 +38,7 @@ public class TwattService {
     }
 
     public List<Twatt> getAllTwatts(boolean isNewer, int page, int postPerPage){
-        List<Twatt> twattList = new ArrayList<>(twattDao.getTwatt());
+        List<Twatt> twattList = new ArrayList<>(twattRepository.findAll());
         Collections.sort(twattList, Comparator.comparing(Twatt::getDate));
         if(isNewer) {
             Collections.reverse(twattList);
@@ -41,19 +46,27 @@ public class TwattService {
         return twattList;
     }
 
+    public Page<Twatt> getTwattByPage(Pageable page){
+        return twattRepository.findAll(page);
+    }
 
-    public void addTwatt(Twatt newTwat) {
-        twattDao.addTwatt(newTwat);
+
+    public void addTwatt(Twatt newTwatt) {
+        twattRepository.save(newTwatt);
     }
 
     public boolean deleteTwattById(Long twattId) {
-        return twattDao.deleteTwattById(twattId);
+        if (twattRepository.existsById(twattId)) {
+            twattRepository.deleteById(twattId);
+            return true;
+        }
+        return false;
     }
 
     public Twatt getTwattById(Long twattId){
-        return twattDao.getTwattById(twattId);
+        return twattRepository.findById(twattId).get();
     }
     public List<Twatt> getReplies(Long parentId){
-        return twattDao.getResponses(parentId);
+        return twattRepository.findByParentId(parentId);
     }
 }

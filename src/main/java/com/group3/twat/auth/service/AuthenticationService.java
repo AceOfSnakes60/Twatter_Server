@@ -1,7 +1,10 @@
-package com.group3.twat.auth;
+package com.group3.twat.auth.service;
 
+import com.group3.twat.auth.Role;
+import com.group3.twat.auth.service.JwtService;
 import com.group3.twat.auth.templates.AuthenticationRequest;
 import com.group3.twat.auth.templates.AuthenticationResponse;
+import com.group3.twat.auth.templates.RefreshRequest;
 import com.group3.twat.auth.templates.RegisterRequest;
 import com.group3.twat.user.User;
 import com.group3.twat.user.service.DAO.UserRepository;
@@ -11,6 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +41,11 @@ private final UserRepository userRepository;
                     .build();
             repository.save(user);
             var jwtToken = jwtService.generateToken(user);
+            String secretKey = jwtService.generateSecretKey();
+            String refreshToken = jwtService.generateRefreshToken(user, secretKey);
             return AuthenticationResponse.builder()
-                    .token(jwtToken)
+                    .AccessToken(jwtToken)
+                    .RefreshToken(refreshToken)
                     .build();
         }
         return AuthenticationResponse.builder()
@@ -64,9 +72,29 @@ private final UserRepository userRepository;
                         request.getPassword()
                 )
         );
-        var jwtToken = jwtService.generateToken(user.get());
+        String jwtToken = jwtService.generateToken(user.get());
+        String secretKey = jwtService.generateSecretKey();
+        String refreshToken = jwtService.generateRefreshToken(user.get(), secretKey);
+        System.out.println(refreshToken);
+        System.out.println(jwtToken);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .AccessToken(jwtToken)
+                .RefreshToken(refreshToken)
+                .build();
+    }
+    public AuthenticationResponse refresh(RefreshRequest refreshRequest){
+        String refreshToken = refreshRequest.refreshToken();
+        String username = jwtService.extractUsername(refreshToken);
+
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            return null;
+        }
+        System.out.println("Refresh");
+        String jwtToken = jwtService.generateToken(user.get());
+        return AuthenticationResponse.builder()
+                .AccessToken(jwtToken)
+                .RefreshToken(refreshToken)
                 .build();
     }
 

@@ -20,6 +20,10 @@ public class Group {
 
     private String name;
 
+    @OneToOne
+    @JoinColumn(name = "admin_id")
+    private User admin;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private List<User> users;

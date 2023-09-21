@@ -1,7 +1,10 @@
 package com.group3.twat.twatt.service.DAO;
 
 import com.group3.twat.twatt.Twatt;
+import com.group3.twat.twatt.service.TwattWithUserUsernameDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,6 +22,9 @@ this.twattRepository= twattRepository;
         return twattRepository.findAll();
     }
 
+
+    @Override
+    public Page<Twatt> getTwattByPage(Pageable pageable){ return twattRepository.findAll(pageable);}
 
     @Override
     public void addTwatt(Twatt newTwatt) {
