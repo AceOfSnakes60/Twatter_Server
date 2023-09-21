@@ -23,7 +23,7 @@ public class Group {
     private String description;
     private LocalDate createdAt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "admin_id")
     private User admin;
 

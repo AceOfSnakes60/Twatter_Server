@@ -2,6 +2,7 @@ package com.group3.twat.user.model;
 
 
 import com.group3.twat.enums.Role;
+import com.group3.twat.group.model.Group;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,8 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
     private List<User> friends;
+
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

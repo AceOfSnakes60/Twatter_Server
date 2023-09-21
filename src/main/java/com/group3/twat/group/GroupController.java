@@ -44,6 +44,7 @@ public class GroupController {
                 user,
                 null
         );
+        System.out.println(newGroup);
         groupService.addGroup(newGroup);
         return ResponseEntity.ok().build();
     }
