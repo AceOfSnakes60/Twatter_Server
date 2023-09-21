@@ -19,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +41,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(GET, "/api/v1/auth/**").hasAnyAuthority("USER")
                 .requestMatchers(GET, "/user/me").hasAnyAuthority("USER")
+                .requestMatchers(POST, "/user").hasAnyAuthority("USER")
+                .requestMatchers(POST, "/twatts").hasAnyAuthority("USER")
+                .requestMatchers(POST, "/groups").hasAnyAuthority("USER")
                 .anyRequest().permitAll()
                 .and()
                 .cors()

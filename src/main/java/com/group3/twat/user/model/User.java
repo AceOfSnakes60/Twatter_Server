@@ -1,7 +1,7 @@
-package com.group3.twat.user;
+package com.group3.twat.user.model;
 
 
-import com.group3.twat.auth.Role;
+import com.group3.twat.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.group3.twat.user.service.DAO;
+package com.group3.twat.user.repository;
 
-import com.group3.twat.user.User;
+import com.group3.twat.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.group3.twat.user.service;
 
-import com.group3.twat.user.User;
-import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

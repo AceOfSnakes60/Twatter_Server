@@ -3,11 +3,10 @@ package com.group3.twat.user;
 import com.group3.twat.requests.UserRegistrationRequest;
 import com.group3.twat.requests.ValidationRequest;
 import com.group3.twat.requests.ValidationResponse;
+import com.group3.twat.user.model.User;
 import com.group3.twat.user.service.UserService;
-import com.group3.twat.user.service.Validations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -59,10 +58,7 @@ public class UserControler {
         System.out.println("me");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        //TODO It could be user or email
         User user = userService.getUserByName(username);
-        System.out.println("Works");
-        System.out.println(user.getUsername());
         return user;
     }
     @PostMapping("/validate")

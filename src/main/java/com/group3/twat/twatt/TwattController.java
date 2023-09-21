@@ -1,9 +1,9 @@
 package com.group3.twat.twatt;
 
 import com.group3.twat.requests.NewTwattRequest;
+import com.group3.twat.twatt.model.Twatt;
 import com.group3.twat.twatt.service.TwattService;
-import com.group3.twat.twatt.service.TwattWithUserUsernameDTO;
-import com.group3.twat.user.User;
+import com.group3.twat.user.model.User;
 import com.group3.twat.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +36,8 @@ public class TwattController {
 
 
     @GetMapping()
-    public ResponseEntity<Page<Twatt>> getTwatts() {
-        System.out.println("getTwatts");
-        Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Order.desc("date")));
+    public ResponseEntity<Page<Twatt>> getTwatts(@RequestParam int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Order.desc("date")));
         Page<Twatt> twatts = twattService.getTwattByPage(pageable);
         return ResponseEntity.ok(twatts);
     }
@@ -61,6 +59,7 @@ public class TwattController {
                     LocalDate.now(),
                     newTwattRequest.parentId()
             );
+        System.out.println(twatt);
             twattService.addTwatt(twatt);
         return ResponseEntity.ok().build();
     }

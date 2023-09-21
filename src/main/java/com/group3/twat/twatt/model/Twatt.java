@@ -1,7 +1,7 @@
-package com.group3.twat.twatt;
+package com.group3.twat.twatt.model;
 
 
-import com.group3.twat.user.User;
+import com.group3.twat.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +18,7 @@ public class Twatt {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;

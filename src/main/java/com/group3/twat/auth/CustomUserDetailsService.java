@@ -1,7 +1,7 @@
 package com.group3.twat.auth;
 
-import com.group3.twat.user.User;
-import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.repository.UserRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

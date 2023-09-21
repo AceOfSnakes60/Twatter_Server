@@ -1,8 +1,7 @@
 package com.group3.twat.user.service;
 
-import com.group3.twat.user.User;
-import com.group3.twat.user.service.DAO.UserDao;
-import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

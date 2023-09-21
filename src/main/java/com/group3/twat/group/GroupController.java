@@ -1,30 +1,49 @@
 package com.group3.twat.group;
 
-import com.group3.twat.group.Group;
+import com.group3.twat.group.model.Group;
 import com.group3.twat.group.service.GroupService;
+import com.group3.twat.requests.GroupCreationRequest;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @RestController
 public class GroupController {
 
     private final GroupService groupService;
-
+    private final UserService userService;
     @Autowired
-    public GroupController(GroupService groupService) {
+    public GroupController(GroupService groupService, UserService userService) {
         this.groupService = groupService;
+        this.userService = userService;
     }
 
     @GetMapping("/groups")
     public List <Group> getGroup() {
+        System.out.println("Get groups");
         return groupService.getAllGroups();
     }
 
 
     @PostMapping("/groups")
-    public ResponseEntity addGroup(@RequestBody Group newGroup) {
+    public ResponseEntity addGroup(@RequestBody GroupCreationRequest newGroupRequest) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userService.getUserByName(username);
+
+        Group newGroup = new Group(
+                null,
+                newGroupRequest.name(),
+                newGroupRequest.description(),
+                LocalDate.now(),
+                user,
+                null
+        );
         groupService.addGroup(newGroup);
         return ResponseEntity.ok().build();
     }

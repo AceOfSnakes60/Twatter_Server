@@ -1,7 +1,6 @@
-package com.group3.twat.twatt.service.DAO;
+package com.group3.twat.twatt.repository;
 
-import com.group3.twat.twatt.Twatt;
-import com.group3.twat.twatt.service.TwattWithUserUsernameDTO;
+import com.group3.twat.twatt.model.Twatt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +17,11 @@ public interface TwattRepository extends JpaRepository<Twatt,Long> {
 
     Page<Twatt> findAll(Pageable pageable);
 
-    //@Query("SELECT NEW com.group3.twat.twatt.service.TwattWithUserUsernameDTO(b) FROM Twatt b")
+    @Query(value = "SELECT t FROM Twatt t LEFT JOIN FETCH t.user",
+    countQuery = "SELECT count(*) from Twatt ")
+    Page<Twatt> findAllWithUser(Pageable pageable);
+
+    //@Query("SELECT NEW com.group3.twat.twatt.model.TwattWithUserUsernameDTO(b) FROM Twatt b")
     //Page<TwattWithUserUsernameDTO> findAllWithUserUsername(Pageable pageable);
 
 

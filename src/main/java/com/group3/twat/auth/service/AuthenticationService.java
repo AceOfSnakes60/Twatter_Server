@@ -1,13 +1,12 @@
 package com.group3.twat.auth.service;
 
-import com.group3.twat.auth.Role;
-import com.group3.twat.auth.service.JwtService;
+import com.group3.twat.enums.Role;
 import com.group3.twat.auth.templates.AuthenticationRequest;
 import com.group3.twat.auth.templates.AuthenticationResponse;
 import com.group3.twat.auth.templates.RefreshRequest;
 import com.group3.twat.auth.templates.RegisterRequest;
-import com.group3.twat.user.User;
-import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.repository.UserRepository;
 import com.group3.twat.user.service.Validations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

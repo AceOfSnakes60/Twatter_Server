@@ -1,11 +1,9 @@
 package com.group3.twat.group.service;
 
-import com.group3.twat.group.Group;
-import com.group3.twat.group.service.DAO.GroupDao;
-import com.group3.twat.group.service.DAO.GroupRepository;
-import com.group3.twat.user.User;
-import com.group3.twat.user.service.DAO.UserDao;
-import com.group3.twat.user.service.DAO.UserRepository;
+import com.group3.twat.group.model.Group;
+import com.group3.twat.group.Repository.GroupRepository;
+import com.group3.twat.user.model.User;
+import com.group3.twat.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
