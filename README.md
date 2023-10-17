@@ -1,5 +1,5 @@
 
-![Logo]((https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-AceOfSnakes60.git/twatter-logo.png?raw=true))
+![Logo]((https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-AceOfSnakes60/twatter-logo.png?raw=true))
 
 
 # TWITTER CLONE (BACKEND)
