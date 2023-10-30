@@ -1,10 +1,9 @@
 package com.group3.twat.group.model;
 
+import com.group3.twat.twatt.model.Twatt;
 import com.group3.twat.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,8 +11,10 @@ import java.util.List;
 @Entity
 @Table(name = "groups")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,11 @@ public class Group {
     @JoinColumn(name = "admin_id")
     private User admin;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private List<User> users;
+
+    @ManyToMany
+    @JoinColumn(name = "twatt_id")
+    private List<Twatt> twatts;
 }

@@ -35,15 +35,12 @@ public class GroupController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userService.getUserByName(username);
+        Group newGroup = Group.builder().name(
+                newGroupRequest.name())
+                .description(newGroupRequest.description())
+                .admin(user)
+                .build();
 
-        Group newGroup = new Group(
-                null,
-                newGroupRequest.name(),
-                newGroupRequest.description(),
-                LocalDate.now(),
-                user,
-                null
-        );
         System.out.println(newGroup);
         groupService.addGroup(newGroup);
         return ResponseEntity.ok().build();
