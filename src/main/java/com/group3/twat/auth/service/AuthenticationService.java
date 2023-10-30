@@ -83,7 +83,8 @@ private final UserRepository userRepository;
     }
     public AuthenticationResponse refresh(RefreshRequest refreshRequest){
         String refreshToken = refreshRequest.refreshToken();
-        String username = jwtService.extractUsername(refreshToken);
+        String accessToken = refreshRequest.accessToken();
+        String username = jwtService.extractUsername(accessToken);
 
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isEmpty()){

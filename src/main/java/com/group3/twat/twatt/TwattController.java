@@ -1,7 +1,9 @@
 package com.group3.twat.twatt;
 
+import com.group3.twat.group.service.GroupService;
 import com.group3.twat.requests.NewTwattRequest;
 import com.group3.twat.twatt.model.Twatt;
+import com.group3.twat.twatt.model.TwattPublicDTO;
 import com.group3.twat.twatt.service.TwattService;
 import com.group3.twat.user.model.User;
 import com.group3.twat.user.service.UserService;
@@ -28,6 +30,8 @@ public class TwattController {
         private final TwattService twattService;
         @Autowired
         private UserService userService;
+        @Autowired
+        private GroupService groupService;
 
         @Autowired
         public TwattController(TwattService twattService) {
@@ -45,8 +49,22 @@ public class TwattController {
     @GetMapping("/{twattId}")
     public Twatt getTwattById(@PathVariable Long twattId){ return twattService.getTwattById(twattId); }
 
+
+    @GetMapping("/groups/{id}")
+    public List<Twatt> getGroupTwatts(@PathVariable Long groupId, @RequestParam int page){
+            return groupService.getTwatsFromGroup(groupId, page);
+    }
+
+    //TODO Add Pagination
+    @GetMapping("/user/{username}")
+    public List<TwattPublicDTO> getUserTwatts(@PathVariable String username){
+        System.out.println("Get by username: " + username);
+            List<TwattPublicDTO> twattList = twattService.getByUsername(username, 0);
+        System.out.println(twattList.get(0));
+        return twattList;
+    }
+
     @PostMapping()
-    //@PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addTwatt(@RequestBody NewTwattRequest newTwattRequest) {
         System.out.println("Post twatt");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -77,7 +95,8 @@ public class TwattController {
     }
 
     @GetMapping("/replies/{parentId}")
-    public List<Twatt> getReplies(@PathVariable Long parentId){
+    public List<TwattPublicDTO> getReplies(@PathVariable Long parentId){
+        System.out.println("GetReplies");
             return twattService.getReplies(parentId);
     }
 

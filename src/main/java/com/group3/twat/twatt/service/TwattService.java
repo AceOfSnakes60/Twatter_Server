@@ -1,6 +1,7 @@
 package com.group3.twat.twatt.service;
 
 import com.group3.twat.twatt.model.Twatt;
+import com.group3.twat.twatt.model.TwattPublicDTO;
 import com.group3.twat.twatt.repository.TwattRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,7 +50,10 @@ public class TwattService {
         return twattRepository.findAllWithUser(page);
     }
 
+    public List<TwattPublicDTO> getByUsername(String username, int page){
 
+        return twattRepository.getTwattByUser(username);
+    }
     public void addTwatt(Twatt newTwatt) {
         twattRepository.save(newTwatt);
     }
@@ -65,7 +69,7 @@ public class TwattService {
     public Twatt getTwattById(Long twattId){
         return twattRepository.findById(twattId).get();
     }
-    public List<Twatt> getReplies(Long parentId){
+    public List<TwattPublicDTO> getReplies(Long parentId){
         return twattRepository.findByParentId(parentId);
     }
 }

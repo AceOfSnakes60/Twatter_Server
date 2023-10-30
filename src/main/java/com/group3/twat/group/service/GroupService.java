@@ -2,11 +2,18 @@ package com.group3.twat.group.service;
 
 import com.group3.twat.group.model.Group;
 import com.group3.twat.group.Repository.GroupRepository;
+import com.group3.twat.twatt.model.Twatt;
+import com.group3.twat.twatt.model.TwattPublicDTO;
 import com.group3.twat.user.model.User;
 import com.group3.twat.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 @Service
 public class GroupService {
@@ -74,6 +81,14 @@ public class GroupService {
             }
 
         return false;
+    }
+
+    public List<Twatt> getTwatsFromGroup(long groupId, int page){
+        Group group = groupRepository.getGroupById(groupId);
+        List<Twatt> twattList = group.getTwatts();
+        Collections.sort(twattList, Comparator.comparing(Twatt::getDate));
+        return twattList;
+
     }
 
 }

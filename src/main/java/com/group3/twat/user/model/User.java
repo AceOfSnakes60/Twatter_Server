@@ -30,6 +30,8 @@ public class User implements UserDetails {
 
     private String email;
 
+    private String description;
+
     private String password;
 
     private String secretKey;
@@ -43,6 +45,8 @@ public class User implements UserDetails {
     )
     private List<User> friends;
 
+    @OneToMany
+    private List<User> following;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -53,8 +57,6 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-
-//Uwaga username ma przekazć email nie usera!!!
 
     @Override
     public String getUsername(){
