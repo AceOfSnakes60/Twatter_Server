@@ -17,11 +17,6 @@ public class PublicController {
         this.userService = userService;
     }
 
-    //TODO delete this controller, for dev use only
-    @DeleteMapping("/nuke")
-    public void nuke(){
-
-    }
 
 
 }

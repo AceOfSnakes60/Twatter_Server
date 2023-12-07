@@ -100,4 +100,16 @@ public class TwattController {
             return twattService.getReplies(parentId);
     }
 
+    @PostMapping("/like")
+    public ResponseEntity<?> likeTwatt(@RequestParam Long twattId){
+            //TODO
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.getUserByName(username);
+
+        twattService.addLike(twattId);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

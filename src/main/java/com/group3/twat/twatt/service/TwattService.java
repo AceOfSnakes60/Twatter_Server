@@ -72,4 +72,8 @@ public class TwattService {
     public List<TwattPublicDTO> getReplies(Long parentId){
         return twattRepository.findByParentId(parentId);
     }
+
+    public void addLike(Long twattId){
+
+    }
 }
