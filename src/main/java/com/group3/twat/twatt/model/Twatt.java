@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "twatt")
@@ -27,4 +28,8 @@ public class Twatt {
     private String text;
     private LocalDate date;
     private Long parentId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<User> likes;
 }
