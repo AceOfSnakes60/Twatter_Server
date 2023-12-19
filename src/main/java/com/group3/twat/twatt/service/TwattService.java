@@ -3,15 +3,14 @@ package com.group3.twat.twatt.service;
 import com.group3.twat.twatt.model.Twatt;
 import com.group3.twat.twatt.model.TwattPublicDTO;
 import com.group3.twat.twatt.repository.TwattRepository;
+import com.group3.twat.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
+import java.util.*;
 
 @Service
 public class TwattService {
@@ -73,7 +72,12 @@ public class TwattService {
         return twattRepository.findByParentId(parentId);
     }
 
-    public void addLike(Long twattId){
+    public void addLike(Long twattId, User user){
+        Optional<Twatt> found = twattRepository.findById(twattId);
+        if(found.isEmpty()){
+            return;
+        }
+        found.get().addLike(user);
 
     }
 }

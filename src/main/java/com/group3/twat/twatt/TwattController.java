@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -75,7 +76,8 @@ public class TwattController {
                     user,
                     newTwattRequest.body(),
                     LocalDate.now(),
-                    newTwattRequest.parentId()
+                    newTwattRequest.parentId(),
+                    new ArrayList<User>()
             );
         System.out.println(twatt);
             twattService.addTwatt(twatt);
@@ -102,12 +104,11 @@ public class TwattController {
 
     @PostMapping("/like")
     public ResponseEntity<?> likeTwatt(@RequestParam Long twattId){
-            //TODO
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.getUserByName(username);
 
-        twattService.addLike(twattId);
+        twattService.addLike(twattId, user);
 
         return ResponseEntity.ok().build();
     }

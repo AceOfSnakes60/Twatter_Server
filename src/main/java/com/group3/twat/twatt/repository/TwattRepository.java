@@ -27,6 +27,7 @@ public interface TwattRepository extends JpaRepository<Twatt,Long> {
             "FROM Twatt t WHERE t.user.username = :username")
     List<TwattPublicDTO> getTwattByUser(String username);
 
+
     //@Query("SELECT NEW com.group3.twat.twatt.model.TwattWithUserUsernameDTO(b) FROM Twatt b")
     //Page<TwattWithUserUsernameDTO> findAllWithUserUsername(Pageable pageable);
 

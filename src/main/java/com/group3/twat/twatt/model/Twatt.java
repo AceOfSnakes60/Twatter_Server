@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "twatt")
@@ -32,4 +33,20 @@ public class Twatt {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private List<User> likes;
+
+    public boolean addLike(User likeGiver){
+        if(likes.contains(likeGiver)){
+            return false;
+        }
+        likes.add(likeGiver);
+        return true;
+    }
+    public boolean removeLike(User likeGiver){
+        if(!likes.contains(likeGiver)){
+            return false;
+        }
+        likes.remove(likeGiver);
+        return true;
+    }
+
 }
